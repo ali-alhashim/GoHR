@@ -3,8 +3,8 @@ package users
 import (
 	"net/http"
 
-	"zerotrusterp/apps/users/controllers"
-	"zerotrusterp/core"
+	"gohr/apps/users/controllers"
+	"gohr/core"
 )
 
 

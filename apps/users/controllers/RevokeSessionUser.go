@@ -3,7 +3,7 @@ package controllers
 import(
 	"fmt"
 	"net/http"
-	"zerotrusterp/core"
+	"gohr/core"
 	
 )
 

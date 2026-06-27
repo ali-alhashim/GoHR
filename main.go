@@ -3,10 +3,10 @@ package main
 import (
 	"log"
 	"os"
-	"zerotrusterp/core"
+	"gohr/core"
 
     // Import app packages to register their routes & Models
-	_ "zerotrusterp/apps/users"
+	_ "gohr/apps/users"
 	
 )
 

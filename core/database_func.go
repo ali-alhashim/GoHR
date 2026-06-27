@@ -6,7 +6,7 @@ import (
 	"net"
 	"net/http"
 	"strings"
-	"zerotrusterp/apps/users/usersModels"
+	"gohr/apps/users/usersModels"
     "database/sql"
 )
 

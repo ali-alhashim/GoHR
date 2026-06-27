@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"net/http"
-	"zerotrusterp/apps/users/usersModels"
-	"zerotrusterp/core"
+	"gohr/apps/users/usersModels"
+	"gohr/core"
 	"strconv"
 	"fmt"
 

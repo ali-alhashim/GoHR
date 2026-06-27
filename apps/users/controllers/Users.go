@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"zerotrusterp/apps/users/usersModels"
-	"zerotrusterp/core"
+	"gohr/apps/users/usersModels"
+	"gohr/core"
 )
 
 func ListUsers(w http.ResponseWriter, r *http.Request) {

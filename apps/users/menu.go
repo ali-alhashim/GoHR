@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
-	"zerotrusterp/core"
+	"gohr/core"
 )
 
 func init() {

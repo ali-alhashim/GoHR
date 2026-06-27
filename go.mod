@@ -1,4 +1,4 @@
-module zerotrusterp
+module gohr
 
 go 1.22
 

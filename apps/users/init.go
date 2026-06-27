@@ -1,8 +1,8 @@
 package users
 
 import (
-    "zerotrusterp/core"
-	"zerotrusterp/apps/users/usersModels"
+    "gohr/core"
+	"gohr/apps/users/usersModels"
 )
 	
 

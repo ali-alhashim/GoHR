@@ -20,7 +20,7 @@ import (
 	"net/http"
 	
 
-	"zerotrusterp/apps/users/usersModels"
+	"gohr/apps/users/usersModels"
 )
 
 // generateSecureToken by using the Email + sessionSecret key from .env and hashing it with sha256, this will be used for session management and should be stored in a secure cookie
