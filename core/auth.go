@@ -194,7 +194,7 @@ func isFirstUserAndFirstTimeLogin(email string) bool {
 func registerFirstUserAsAdmin(email string) error {
 	email = strings.ToLower(strings.TrimSpace(email))
 
-	query := "INSERT INTO users (email,  active, username) VALUES ($1, true,'system admin')"
+	query := "INSERT INTO users (email,  active, name) VALUES ($1, true,'system admin')"
 
 	_, err := DB.Exec(query, email)
 	if err != nil {

@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"strings"
 	"gohr/apps/users/usersModels"
-    "database/sql"
 )
 
 
@@ -167,7 +166,7 @@ func GetUserByEmail(email string) *usersModels.User {
 
 	 query := `
         SELECT 
-            u.id, u.name, u.email, u.active, u.online, u.last_login, u.created_at, u.updated_at, u.related_employee_id,
+            u.id, u.name, u.email, u.active, u.online, u.last_login, u.created_at, u.updated_at, 
             r.id, r.name, r.description,
             p.id, p.resource, p.action
         FROM users u
@@ -190,7 +189,7 @@ func GetUserByEmail(email string) *usersModels.User {
     // Map to keep track of which permissions belong to which role
     permMap := make(map[int]map[int]bool) 
 
-    var employeeId sql.NullInt64
+  
 
     for rows.Next() {
         var (
@@ -205,7 +204,7 @@ func GetUserByEmail(email string) *usersModels.User {
         )
 
         err := rows.Scan(
-            &user.ID, &user.Name, &user.Email, &user.Active, &user.Online, &user.LastLogin, &user.CreatedAt, &user.UpdatedAt, &employeeId,
+            &user.ID, &user.Name, &user.Email, &user.Active, &user.Online, &user.LastLogin, &user.CreatedAt, &user.UpdatedAt, 
             &rID, &rName, &rDesc,
             &pID, &pResource, &pAction,
         )

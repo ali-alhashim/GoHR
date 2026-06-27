@@ -80,7 +80,7 @@ func GetLogsFromDB(search, sort, order, page, pageSize string) []usersModels.Log
 		"id":        "id",
 		"email":     "email",
 		"userid":    "user_id",
-		"username":  "username",
+		"name":  "name",
 		"resource":  "resource",
 		"action":    "action",
 		"timestamp": "timestamp",

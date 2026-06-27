@@ -39,13 +39,13 @@ func ListUsers(w http.ResponseWriter, r *http.Request) {
 
 func GetUsersFromDB(search, sort, order, page, pageSize string) []usersModels.User {
 
-	query := "SELECT id, username, email, active, online, last_login, related_employee_id FROM users WHERE 1=1"
+	query := "SELECT id, name, email, active, online, last_login FROM users WHERE 1=1"
 	args := []interface{}{}
 	argIndex := 1
 
 	// 🔍 SAFE search
 	if search != "" {
-		query += " AND (username ILIKE $" + strconv.Itoa(argIndex) +
+		query += " AND (name ILIKE $" + strconv.Itoa(argIndex) +
 			" OR email ILIKE $" + strconv.Itoa(argIndex+1) + ")"
 
 		args = append(args, "%"+search+"%", "%"+search+"%")
@@ -103,8 +103,8 @@ func GetUsersFromDB(search, sort, order, page, pageSize string) []usersModels.Us
 
 	for rows.Next() {
 		var u usersModels.User
-		var relatedEmployeeID *int
-		err := rows.Scan(&u.ID, &u.Name, &u.Email, &u.Active, &u.Online, &u.LastLogin, &relatedEmployeeID)
+		
+		err := rows.Scan(&u.ID, &u.Name, &u.Email, &u.Active, &u.Online, &u.LastLogin)
 		if err != nil {
 			panic(err)
 		}
@@ -181,7 +181,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		email := r.FormValue("Email")
 		active := r.FormValue("Active") == "on"
 
-		relatedEmployeeStr := r.FormValue("RelatedEmployee")
+		
 
 		if username == "" || email == "" {
 			http.Error(w, "All fields are required", http.StatusBadRequest)
@@ -189,27 +189,17 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// ✅ Handle NULL properly
-		var relatedEmployee interface{}
+		
 
-		if relatedEmployeeStr == "" {
-			relatedEmployee = nil
-		} else {
-			id, err := strconv.Atoi(relatedEmployeeStr)
-			if err != nil {
-				http.Error(w, "Invalid Related Employee ID", http.StatusBadRequest)
-				return
-			}
-			relatedEmployee = id
-		}
+		
            
 		 var userID int64
 		
 		 err := core.DB.QueryRow(
-		"INSERT INTO users (username, email, active, related_employee_id) VALUES ($1, $2, $3, $4) RETURNING id",
+		"INSERT INTO users (name, email, active) VALUES ($1, $2, $3) RETURNING id",
 		username, 
 		email, 
 		active, 
-		relatedEmployee,
 		).Scan(&userID)
 
 
@@ -317,7 +307,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	// 4. Update the User basic info
 	tx, err := core.DB.Begin()
-    updateUserQuery := "UPDATE users SET username=$1, email=$2, active=$3 WHERE id=$4"
+    updateUserQuery := "UPDATE users SET name=$1, email=$2, active=$3 WHERE id=$4"
     _, err = tx.Exec(updateUserQuery, Username, Email, Active, userID)
     if err != nil {
         fmt.Println("User update error:", err)
