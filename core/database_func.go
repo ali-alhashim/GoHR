@@ -166,7 +166,7 @@ func GetUserByEmail(email string) *usersModels.User {
 
 	 query := `
         SELECT 
-            u.id, u.name, u.email, u.active, u.online, u.last_login, u.created_at, u.updated_at, 
+            u.id, u.name, u.local_name,u.badge_id, u.email, u.active, u.online, u.last_login, u.created_at, u.updated_at, 
             r.id, r.name, r.description,
             p.id, p.resource, p.action
         FROM users u
@@ -204,7 +204,7 @@ func GetUserByEmail(email string) *usersModels.User {
         )
 
         err := rows.Scan(
-            &user.ID, &user.Name, &user.Email, &user.Active, &user.Online, &user.LastLogin, &user.CreatedAt, &user.UpdatedAt, 
+            &user.ID, &user.Name,&user.LocalName,&user.BadgeId, &user.Email, &user.Active, &user.Online, &user.LastLogin, &user.CreatedAt, &user.UpdatedAt, 
             &rID, &rName, &rDesc,
             &pID, &pResource, &pAction,
         )

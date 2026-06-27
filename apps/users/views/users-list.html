@@ -61,10 +61,13 @@ Count Records: {{.TotalRecords}}
             Local Name
             </th>
             <th>Email</th>
+            <th>Department</th>
+            <th>Job</th>
             <th>Online</th>
             <th>Active</th>
             <th>Last Login</th>
             <th>Revoke Session</th>
+            <th>Doc Status</th>
         </tr>
     </thead>
 
@@ -83,7 +86,8 @@ Count Records: {{.TotalRecords}}
             <td>{{.Name}}</td>
             <td>{{.LocalName}}</td>
             <td>{{.Email}}</td>
-
+            <td>{{if .Department}}{{.Department}}{{end}}</td>
+            <td>{{if .JobTitle}}{{.JobTitle}}{{end}}</td>
            
 
 
@@ -116,6 +120,10 @@ Count Records: {{.TotalRecords}}
                 <button onclick="RevokeSession(this)" data-userid="{{.ID}}">
                     <img src="/static/icons/power.svg" class="icon" width="20">
                 </button>
+            </td>
+
+            <td>
+                <!--here we scan the path and show the result-->
             </td>
         </tr>
         {{end}}
