@@ -1,0 +1,565 @@
+/* =========================
+   RESET
+========================= */
+html, body {
+    height: 100%;
+}
+
+
+@font-face {
+  font-family:"DIN";
+  src:url("../fonts/DINNEXTLTARABIC-LIGHT-2-2.otf") format("opentype");
+  font-weight:300;
+  font-style:normal;
+}
+
+body {
+    margin: 0;
+    font-family: "DIN",Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f5f7fa;
+    color: #1f2937;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+.app-container {
+    display: flex;
+    height: 100vh;
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================
+   SIDEBAR (Cloudflare Style)
+========================= */
+.sidebar {
+    width: 240px;
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 16px;
+    margin: 0;
+    color: #111827;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: #4b5563;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.15s ease;
+}
+
+.sidebar a:hover {
+    background: #f9fafb;
+    color: #111827;
+}
+
+.sidebar a.active {
+    background: #fff7ed;
+    color: #00663d;
+    border-left: 3px solid #00663d;
+    font-weight: 500;
+}
+
+/* Icons (no invert hacks) */
+.sidebar .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    opacity: 0.7;
+}
+
+.sidebar a.active .icon {
+    opacity: 1;
+}
+
+.user-profile{
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    
+    font-size: 10px;
+    color: #4b5563;
+    flex-direction: column;
+}
+
+
+
+.status-indicator{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #8c9290; /* we don't now  */
+}
+
+.status-indicator.online {
+    background-color: #34d399; /* Green for online */
+}
+
+.status-indicator.offline {
+    background-color: #f87171; /* Red for offline */
+}
+
+
+
+.user-profile:hover {
+    color: #111827;
+    cursor: pointer;
+}
+
+/* =========================
+   HEADER
+========================= */
+.header {
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.row{
+  display: flex;
+  flex-direction: row;  
+}
+
+/* =========================
+   WORKSPACE
+========================= */
+.workspace {
+    padding: 20px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+/* =========================
+   BUTTON SYSTEM
+========================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    height: 32px;                 /* SAME as inputs */
+    padding: 0 12px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    border-radius: 6px;
+    border: 1px solid transparent;
+
+    cursor: pointer;
+    white-space: nowrap;
+
+    transition: all 0.15s ease;
+}
+
+.btn-id{
+    background-color: #008550;
+    color: #ffffff;
+    font-weight: 400;
+    font-size: medium;
+}
+
+.btn-id:hover{
+    background-color: #05a062;
+}
+
+/* Primary (ONLY highlight action) */
+.btn-primary {
+    background-color: #00663d;
+    border-color: #00663d;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #057749;
+    border-color: #00663d;
+}
+
+/* Secondary (default) */
+.btn-secondary {
+    background: #ffffff;
+    border-color: #d1d5db;
+    color: #374151;
+}
+
+.btn-secondary:hover {
+    background: #f9fafb;
+}
+
+/* Danger (subtle, not loud) */
+.btn-danger {
+    background: #ffffff;
+    border-color: #fca5a5;
+    color: #b91c1c;
+}
+
+.btn-danger:hover {
+    background: #fef2f2;
+}
+
+/* =========================
+   INPUTS (ALL TYPES)
+========================= */
+input[type="text"],
+input[type="search"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+select {
+    height: 32px;
+    padding: 4px 10px;
+    font-size: 13px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    color: #111827;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* Remove number arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[readonly] {
+        background-color: #e9ecef; /* Darker, greyish background */
+        cursor: not-allowed;       /* Changes cursor to a circle with a slash */
+        color: #495057;            /* Slightly dims the text color */
+        border-color: #ced4da;     /* Matches a muted border */
+    }
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Focus */
+input:focus,
+select:focus {
+    border-color: #00663D;
+    box-shadow: 0 0 0 1px rgba(32, 244, 85, 0.3);
+}
+
+/* =========================
+   FORMS
+========================= */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.m-x-2{
+    margin: 0 5px;
+}
+
+.card{
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.form-group label {
+    font-size: 12px;
+    margin-bottom: 4px;
+    display: block;
+    color: #374151;
+}
+
+/* =========================
+   TABLES
+========================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 10px 12px;
+    text-align: left;
+}
+
+th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+tr {
+    border-bottom: 1px solid #f1f5f9;
+}
+
+tr:hover {
+    background: #f9fafb;
+}
+
+/* Table buttons (NO blue) */
+.table-btn {
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+/* Edit → neutral */
+.table-btn.edit {
+    background: #ffffff;
+    border-color: #d1d5db;
+    color: #374151;
+}
+
+.table-btn.edit:hover {
+    background: #f9fafb;
+}
+
+/* Delete → subtle danger */
+.table-btn.delete {
+    background: #ffffff;
+    border-color: #fca5a5;
+    color: #b91c1c;
+}
+
+.table-btn.delete:hover {
+    background: #fef2f2;
+}
+
+/* =========================
+   LOGIN PAGE
+========================= */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;   /* FIX */
+    background: #f5f7fa;
+}
+
+.login-box {
+    width: 340px;
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.center-container {
+    display: flex;
+    justify-content: center;   /* horizontal */
+    align-items: center;       /* vertical */
+    min-height: 100vh;         /* full screen height */
+    background: #f5f7fa;       /* optional (Cloudflare style) */
+}
+
+.logo {
+   
+    height: 40px;
+    margin-bottom: 16px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+    font-weight: 600;
+   
+}
+
+
+.logo-small {
+   
+    height: 20px;
+}
+
+.alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    padding: 12px 14px;
+    border-radius: 8px;
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    border: 1px solid transparent;
+    background-color: #f9fafb;
+
+    position: relative;
+}
+
+.alert-danger {
+    background-color: #fff5f5;
+    border: 1px solid #f5c2c7;
+    color: #842029;
+}
+
+.alert-danger::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: #d93025;
+    border-radius: 8px 0 0 8px;
+}
+
+.alert-warning {
+    background-color: #fff8e1;
+    border: 1px solid #f3d9a4;
+    color: #8a6d1d;
+}
+
+.alert-warning::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: #f59e0b;
+    border-radius: 8px 0 0 8px;
+}
+
+.alert-success {
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+}
+
+.alert-success::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: #16a34a;
+    border-radius: 8px 0 0 8px;
+}
+
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+
+.w-100 {
+    width: 100%;
+}
+
+.m-5{
+    margin: 5px;
+}
+
+.xy-5{
+    margin: 5px 0;
+
+}
+
+input:disabled {
+    background-color: #d7d3d3;
+    cursor: not-allowed; /* Optional: adds a 'prohibited' cursor for better UX */
+}
+
+.search-menu{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
+
+fieldset {
+    border: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0 10px;
+    color: #666;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
+.menu-group {
+    border: none;
+    border-top: 1px solid #eee; /* Optional: adds a subtle divider line */
+    margin: 15px 0;
+    padding: 10px 0 0 0;
+}
+
+.menu-legend {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 15px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.bg-dark{
+    background-color: #b4b4b4;
+    cursor: pointer;
+}
+
+.deactive{
+    background-color: rgb(255, 171, 171);
+  
+}
+
+
+

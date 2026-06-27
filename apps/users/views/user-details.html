@@ -1,0 +1,385 @@
+{{define "content"}}
+
+<h1>User /  {{.User.ID}}</h1>
+
+<form id="updateUserFormId" name="updateUserFrom">
+
+<table>
+    <thead>
+       <th colspan="2">User Info</th>
+    </thead>
+    <tbody>
+       <tr>
+        <td>
+            ID
+        </td>
+        <td>
+            {{.User.ID}}
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+            Name
+        </td>
+        <td>
+            <input type="text" value="{{.User.Username}}" name="Username">
+        </td>
+       </tr>
+
+        <tr>
+        <td>
+            Email
+        </td>
+        <td>
+            <input type="email" value="{{.User.Email}}" name="Email" disabled>
+        </td>
+       </tr>
+    </tbody>
+</table>
+
+<br/>
+
+<table>
+    <thead>
+       <th colspan="2">User Security</th>
+    </thead>
+    <tbody>
+
+        <tr>
+        <td>
+         Active
+        </td>
+        <td>
+          <input type="checkbox" name="Active" id="Active" {{if .User.Active}}checked{{end}}>
+        </td>
+       </tr>
+
+
+       <tr>
+        <td>
+           Last Login
+        </td>
+        <td>
+            {{if .User.LastLogin}}
+            {{.User.LastLogin.Format "2006-01-02 15:04:05"}}
+            {{else}}
+             Never
+            {{end}}
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+           Created At
+        </td>
+        <td>
+            {{.User.CreatedAt.Format "2006-01-02 15:04:05"}}
+        </td>
+       </tr>
+
+         <tr>
+        <td>
+           Updated At
+        </td>
+        <td>
+            {{.User.UpdatedAt.Format "2006-01-02 15:04:05"}}
+        </td>
+       </tr>
+
+    </tbody>
+</table>
+
+
+<br/>
+
+<table>
+    <thead>
+        <tr>
+        <th colspan="5">
+            Roles
+        </th>
+        </tr>
+
+         <tr>
+            <td>
+                #
+            </td>
+            <td>
+                Role Name
+            </td>
+            <td>
+                Description
+            </td>
+            <td>
+                Permisstions
+            </td>
+            <td>-</td>
+
+            
+
+        </tr>
+
+
+        
+
+    </thead>
+  <tbody id="roles-Table-Body">
+    {{range .User.Roles}}
+    <tr>
+        <td>{{.ID}}</td>
+        <td><strong>{{.Name}}</strong></td>
+        <td>{{.Description}}</td>
+
+
+
+         
+
+
+        <td>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th><th>Resource</th><th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+            {{range .Permissions}}
+               <tr>
+                <td>{{.ID}}</td><td>{{.Resource}}</td><td>{{.Action}}</td>
+                    
+            {{else}}
+            <td colspan="3">
+                <small>No permissions</small>
+            </td>
+                </tr>
+            {{end}}
+               </tbody>
+            </table>
+        </td>
+
+
+         <td>
+                <button type="button" class="btn btn-danger" onclick="removeTR(this)" data-roleid="{{.ID}}">
+                <img src="/static/icons/trash.svg" alt="remove"  class="icon" width="20"/>
+                </button>
+           </td>
+
+    </tr>
+    {{else}}
+    <tr>
+        <td colspan="4">No roles assigned to this user.</td>
+    </tr>
+    {{end}}
+</tbody>
+</table>
+
+
+<br/>
+
+<table class="xy-5">
+    <thead>
+        <tr>
+            <th colspan="3"> + Assign Roles</th>
+        </tr>
+    </thead>
+    <tbody id="Roles-Table-Body">
+    <tr>
+        <td>
+            1
+        </td>
+     <td>
+               <select name="Role" id="Role" class="w-100 select-search">
+                <option value="">Select Role</option>
+                </select>
+
+             
+     </td>
+     <td>
+       -
+     </td>
+    </tr>
+    </tbody>
+
+    <tr>
+      <td colspan="2">
+         <button type="button" class="btn btn-primery" onclick="addExtraRole()">
+           <img src="/static/icons/plus.svg" alt="Add New User +"  class="icon" width="20"/>
+         </button>
+      </td>
+      <td>
+
+      </td>
+    </tr>
+</table>
+
+
+<br>
+
+
+
+<input type="hidden" name="rolesCountInput" id="rolesCountInput" value="">
+</form>
+<button type="submit" class="btn btn-primary" onclick="submitTheUpdateForm()">Update</button>
+
+
+
+
+
+
+
+<script>
+  // 1. Global variable to store roles once fetched
+  let globalRoles = [];
+
+  // 2. Main initialization on page load
+ document.addEventListener('DOMContentLoaded', function() {
+    fetchRoles();
+    });
+
+
+  function fetchRoles() {
+    fetch('/api/fetch-roles', {
+      method: 'GET',
+      credentials: 'include'
+    })
+    .then(response => response.json())
+    .then(data => {
+      globalRoles = data;
+      
+      // Populate the first row's select
+      // We look for any select with the name "Role"
+      const firstSelect = document.querySelector('select[name="Role"]');
+      if (firstSelect) {
+        populateOptions(firstSelect);
+      }
+    })
+    .catch(error => console.error('Error fetching roles:', error));
+  }
+
+  // 3. Helper function to fill a select element
+  function populateOptions(selectElement) {
+    // Keep the "Select Role" placeholder, remove others
+    selectElement.innerHTML = '<option value="">Select Role</option>';
+    
+    globalRoles.forEach(role => {
+      const option = document.createElement('option');
+      option.value = role.id;
+      option.textContent = role.name;
+      selectElement.appendChild(option);
+    });
+  }
+
+  // 4. Function to add extra rows
+  function addExtraRole() {
+    const tableBody = document.getElementById('Roles-Table-Body');
+    const rowCount = tableBody.rows.length + 1;
+    const newRow = tableBody.insertRow();
+    
+    newRow.innerHTML = `
+        <td>${rowCount}</td>
+        <td>
+            <select name="Role" class="w-100 select-search">
+                <option value="">Select Role</option>
+            </select>
+        </td>
+        <td>
+            <button type="button" class="btn btn-danger" onclick="removeTR(this)">
+                <img src="/static/icons/trash.svg" alt="remove" class="icon" width="20"/>
+            </button>
+        </td>
+    `;
+
+    // Fill the newly created select
+    const newSelect = newRow.querySelector('select');
+    populateOptions(newSelect);
+    
+    updateCount();
+     selectSearch();
+  }
+
+  // 5. Function to remove rows // confrim if ok we will send to backend to delete this role from user 
+  function removeTR(button) {
+    const roleID = button.dataset.roleid;
+    const userID = "{{.User.ID}}";
+     if (!confirm(`Are you sure you want to delete role from user ${userID} / role ID ${roleID} ?`)) return;
+    const row = button.closest('tr');
+    row.remove();
+    updateCount();
+    reIndexRows();
+
+    //delete 
+    deleteRole(roleID, userID);
+
+  }
+
+  function updateCount() {
+    const tableBody = document.getElementById('Roles-Table-Body');
+    const input = document.getElementById('rolesCountInput');
+    if (input) input.value = tableBody.rows.length;
+  }
+
+  function reIndexRows() {
+    const rows = document.querySelectorAll('#Roles-Table-Body tr');
+    rows.forEach((row, index) => {
+      row.cells[0].innerText = index + 1;
+    });
+  }
+
+
+
+
+
+  function deleteRole(roleID, userID) {
+    // Construct the URL with parameters
+    const url = `/api/users/delete-role/${roleID}/${userID}`;
+
+    fetch(url, {
+      method: 'DELETE',
+      credentials: 'include'
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    })
+    .then(data => {
+        console.log("Deleted successfully:", data);
+      
+    })
+    .catch(error => console.error('Error deleting role:', error));
+}
+
+
+
+
+ function submitTheUpdateForm()
+       {
+            const form = document.getElementById('updateUserFormId');
+             console.log("Attempting PATCH Request...");
+             // Ensure the URL is rendered correctly by Go templates
+                const userId = "{{.User.ID}}";
+                const url = `/users/update/${userId}`;
+                const formData = new FormData(form);
+
+
+                fetch(url, {
+                        method: 'PATCH',
+                        credentials: 'include',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log("Update successful");
+                            window.location.href = `/users/details/${userId}`;
+                        } else {
+                            console.error("Update failed with status:", response.status);
+                        }
+                    })
+                    .catch(err => console.error("Fetch error:", err));
+        }
+        
+       
+
+</script>
+
+{{end}}

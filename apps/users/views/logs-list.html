@@ -1,0 +1,114 @@
+{{define "content"}}
+
+<h3>Audit Trail</h3>
+
+<div class="toolbar">
+<!-- 🔍 Search Bar -->
+<form method="GET" style="margin-bottom: 15px;">
+    <input type="text" name="q" value="{{.Query}}" placeholder="Search..." />
+    <button type="submit" class="btn btn-secondary">Search</button>
+</form>
+
+<button type="button" class="btn btn-secondary" style="margin-bottom: 15px;" id="backBtn"> < Back</button>
+<select name="pageSize" style="margin-bottom: 15px;" id="selectPageSize">
+    <option>10</option>
+    <option>20</option>
+    <option>50</option>
+    <option>100</option>
+    <option>200</option>
+</select>
+<button type="button" class="btn btn-secondary" style="margin-bottom: 15px;" id="nextBtn">Next > </button>
+
+</div><!--toolbar-->
+
+Count Records: {{.TotalRecords}}
+<table>
+    <thead>
+        <tr>
+            <th>
+                <a href="?sort=id&order={{if eq .Order "asc"}}desc{{else}}asc{{end}}">
+                    ID
+                </a>
+            </th>
+            <th>
+                <a href="?sort=username&order={{if eq .Order "asc"}}desc{{else}}asc{{end}}">
+                    Name
+                </a>
+            </th>
+            <th>Email</th>
+            <th>User ID</th>
+            <th>Resource</th>
+            <th>Action</th>
+            <th>
+                  <a href="?sort=timestamp&order={{if eq .Order "asc"}}desc{{else}}asc{{end}}">
+                    Timestamp
+                    </a>
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{range .Logs}}
+        <tr>
+            <td>{{.ID}}</td>
+            <td>{{.Name}}</td>
+            <td>{{.Email}}</td>
+            <td>{{.UserID}}</td>
+            <td>{{.Resource}}</td>
+            <td>{{.Action}}</td>
+            <td>
+              
+                {{.Timestamp.Format "2006-01-02 15:04:05"}}
+               
+            </td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const backBtn = document.getElementById('backBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const selectPageSize = document.getElementById('selectPageSize');
+
+    // Get current URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Parse current page and pageSize (default to 1 and 10)
+    let currentPage = parseInt(urlParams.get('page')) || 1;
+    let currentPageSize = urlParams.get('pageSize') || "10";
+
+    // Set the dropdown to match the current URL state
+    selectPageSize.value = currentPageSize;
+
+    // Helper function to update URL and redirect
+    const updateLocation = (newPage, newSize) => {
+        urlParams.set('page', newPage);
+        urlParams.set('pageSize', newSize);
+        window.location.search = urlParams.toString();
+    };
+
+    // --- Event Listeners ---
+
+    backBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+            updateLocation(currentPage - 1, selectPageSize.value);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        updateLocation(currentPage + 1, selectPageSize.value);
+    });
+
+    selectPageSize.addEventListener('change', () => {
+        // When changing page size, usually best to reset to page 1
+        updateLocation(1, selectPageSize.value);
+    });
+});
+</script>
+
+
+
+{{end}}

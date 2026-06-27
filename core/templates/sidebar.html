@@ -1,0 +1,29 @@
+{{define "sidebar"}}
+<div class="sidebar">
+    
+    <div class="sidebar-header">
+        <img src="/static/logo/ZT-logo.svg" class="logo-small">
+    </div>
+    
+    <div class="search-menu">
+        <input type="text" name="searchMenu">
+    </div>
+
+    <!-- We iterate through each Group (e.g., Employees, Settings) -->
+    {{range .MenuGroups}}
+    <fieldset class="menu-group">
+        <legend class="menu-legend">{{.GroupName}}</legend>
+        <ul>
+            {{range .Items}}
+                <li>
+                    <a href="{{.Path}}">
+                        <img src="/static/icons/{{.Icon}}.svg" class="icon">
+                        <span>{{.Name}}</span>
+                    </a>
+                </li>
+            {{end}}
+        </ul>
+    </fieldset>
+    {{end}}
+</div>
+{{end}}

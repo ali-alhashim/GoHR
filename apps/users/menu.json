@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Users",
+    "path": "/users/list",
+    "icon": "users"
+  },
+    {
+    "name": "Roles",
+    "path": "/users/roles",
+    "icon": "shieldCheck"
+  },
+  {
+    "name": "Audit trail",
+    "path": "/users/audit-trail?sort=id&order=desc",
+    "icon": "documentText"
+  }
+]

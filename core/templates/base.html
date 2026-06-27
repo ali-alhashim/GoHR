@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Title}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/select-search.css">
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- Sidebar -->
+    {{template "sidebar" .}}
+
+    <!-- Main Area -->
+    <div class="main">
+
+        <!-- Header -->
+        {{template "header" .}}
+
+        <!-- Workspace -->
+        <div class="workspace">
+            {{template "content" .}}
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="/static/js/websocket-client.js"></script>
+<script src="/static/js/select-search.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Title}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="Center-container">
+
+
+
+<div class="login-container">
+    <div class="login-box">
+         <img src="/static/logo/logo-l.svg" alt="Logo" class="logo">
+       
+        <form method="POST" action="/login-otp">
+            <div class="form-group">
+                <input type="hidden" name="email" value="{{.Email}}">
+                <input type="hidden" name="next" value="{{.Next}}">
+                <input type="number" id="otp" name="otp" placeholder="Enter OTP" required>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+            
+        </form>
+
+
+            {{if .Error}}
+            <div class="alert alert-danger">
+            <i class="fa fa-exclamation-circle"></i>
+            <div>{{.Error}}</div>
+            </div>
+            {{end}}
+
+
+
+    </div>
+</div>
+
+</body>
+</html>
