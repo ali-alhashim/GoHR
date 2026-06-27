@@ -1,4 +1,9 @@
 [
+    {
+    "name": "Dashboard",
+    "path": "/dashboard",
+    "icon": "home"
+  },
   {
     "name": "Users",
     "path": "/users/list",

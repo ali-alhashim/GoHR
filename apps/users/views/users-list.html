@@ -50,9 +50,15 @@ Count Records: {{.TotalRecords}}
                 </a>
             </th>
             <th>
+                Badge Id
+            </th>
+            <th>
                 <a href="?sort=username&order={{if eq .Order "asc"}}desc{{else}}asc{{end}}">
                     Name
                 </a>
+            </th>
+            <th>
+            Local Name
             </th>
             <th>Email</th>
             <th>Online</th>
@@ -70,8 +76,12 @@ Count Records: {{.TotalRecords}}
                 {{.ID}}
                 </a>
             </td>
+            <td>
+                {{.BadgeId}}
+            </td>
 
             <td>{{.Name}}</td>
+            <td>{{.LocalName}}</td>
             <td>{{.Email}}</td>
 
            
